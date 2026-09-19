@@ -22,7 +22,7 @@ jobs:
           cache: 'npm'
 
       - name: 📦 Install Dependencies
-        run: npm ci
+        run: npm install --legacy-peer-deps
 
       - name: 🏗️ Build Production Bundle
         run: npm run build
@@ -35,4 +35,5 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: /
           local-dir: ./dist/
+          protocol: ftp
           dangerous-clean-slate: false
