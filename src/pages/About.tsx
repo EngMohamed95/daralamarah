@@ -14,6 +14,7 @@ import {
   CheckCircle,
   Building,
   Target,
+  MessageCircle,
 } from 'lucide-react';
 import { useSite } from '../context/SiteContext';
 
@@ -314,9 +315,26 @@ export const About: React.FC = () => {
               ? 'فريق دار العمارة مستعد لمناقشة مخططات مشروعك القادم وتحديد الميزانية وخيارات التنفيذ.'
               : 'The Dar Al Amarah engineering team is ready to review your blueprints, define budgets, and outline execution schedules.'}
           </p>
-          <Button to="/contact" variant="primary" icon={<ArrowIcon size={16} />}>
-            {lang === 'ar' ? 'تواصل معنا وابدأ الآن' : 'Contact Us & Get Started'}
-          </Button>
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '1rem', alignItems: 'center' }}>
+            <a
+              href={`https://wa.me/${COMPANY_CONFIG.whatsappNumber}?text=${encodeURIComponent(
+                lang === 'ar'
+                  ? 'مرحباً دار العمارة، أود مناقشة مشروع جديد والحصول على استشارة هندسية.'
+                  : 'Hello Dar Al Amarah, I would like to discuss a new project and get an engineering consultation.'
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-base btn-whatsapp"
+              style={{ paddingBlock: '0.75rem', paddingInline: '1.5rem' }}
+            >
+              <MessageCircle size={18} />
+              <span>{lang === 'ar' ? 'محادثة فورية عبر واتساب' : 'Chat on WhatsApp'}</span>
+            </a>
+
+            <Button to="/contact" variant="secondary" icon={<ArrowIcon size={16} />}>
+              {lang === 'ar' ? 'طلب عرض سعر مفصل' : 'Request Detailed Quote'}
+            </Button>
+          </div>
         </section>
       </div>
     </div>

@@ -272,6 +272,30 @@ export const Footer: React.FC = () => {
                   {lang === 'ar' ? COMPANY_CONFIG.workingHours : COMPANY_CONFIG.workingHoursEn}
                 </span>
               </div>
+
+              {/* Direct WhatsApp Action Button */}
+              <a
+                href={`https://wa.me/${COMPANY_CONFIG.whatsappNumber}?text=${encodeURIComponent(
+                  lang === 'ar'
+                    ? 'مرحباً دار العمارة، أود التواصل المباشر للاستفسار عن تصميم وتنفيذ مسبح وحديقة.'
+                    : 'Hello Dar Al Amarah, I would like to inquire about pool and landscaping services.'
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-whatsapp"
+                id="footer-whatsapp-btn"
+                style={{
+                  marginBlockStart: '0.75rem',
+                  paddingBlock: '0.65rem',
+                  paddingInline: '1.1rem',
+                  borderRadius: '6px',
+                  fontSize: '0.88rem',
+                  width: 'fit-content',
+                }}
+              >
+                <MessageCircle size={17} />
+                <span>{lang === 'ar' ? 'تواصل معنا عبر واتساب' : 'Chat on WhatsApp'}</span>
+              </a>
             </div>
 
             {/* Social Media Links */}

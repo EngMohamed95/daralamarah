@@ -2,8 +2,8 @@ import React from 'react';
 import { SheetHeader } from '../components/SheetHeader';
 import { ServiceCard } from '../components/ServiceCard';
 import { Button } from '../components/Button';
-import { SERVICES_DATA } from '../data/companyData';
-import { ArrowLeft, ArrowRight, ShieldCheck, Wrench, FileCheck, Layers } from 'lucide-react';
+import { SERVICES_DATA, COMPANY_CONFIG } from '../data/companyData';
+import { ArrowLeft, ArrowRight, ShieldCheck, Wrench, FileCheck, Layers, MessageCircle } from 'lucide-react';
 import { useSite } from '../context/SiteContext';
 
 export const Services: React.FC = () => {
@@ -124,9 +124,26 @@ export const Services: React.FC = () => {
               : 'Whether you are building a new luxury villa, remodeling your private garden, or developing hospitality grounds, our engineers provide site surveys and budget-aligned solutions.'}
           </p>
 
-          <Button to="/contact" variant="primary" icon={<ArrowIcon size={16} />}>
-            {lang === 'ar' ? 'اطلب دراسة وعرض سعر للمشروع' : 'Request a Project Quote & Study'}
-          </Button>
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '1rem', alignItems: 'center' }}>
+            <a
+              href={`https://wa.me/${COMPANY_CONFIG.whatsappNumber}?text=${encodeURIComponent(
+                lang === 'ar'
+                  ? 'مرحباً دار العمارة، أود الاستفسار عن باقات وخدمات المسابح واللاندسكيب وطلب دراسة موقع.'
+                  : 'Hello Dar Al Amarah, I would like to inquire about pool and landscaping packages and site survey.'
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-base btn-whatsapp"
+              style={{ paddingBlock: '0.75rem', paddingInline: '1.5rem' }}
+            >
+              <MessageCircle size={18} />
+              <span>{lang === 'ar' ? 'استشارة فورية عبر واتساب' : 'Chat on WhatsApp'}</span>
+            </a>
+
+            <Button to="/contact" variant="secondary" icon={<ArrowIcon size={16} />}>
+              {lang === 'ar' ? 'اطلب دراسة وعرض سعر للمشروع' : 'Request a Project Quote & Study'}
+            </Button>
+          </div>
         </div>
       </div>
     </div>

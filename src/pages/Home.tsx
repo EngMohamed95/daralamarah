@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { HeroBlueprintSVG } from '../components/HeroBlueprintSVG';
+import { HeroShowcase } from '../components/HeroShowcase';
 import { ServiceCard } from '../components/ServiceCard';
 import { Button } from '../components/Button';
 import { CropMarks } from '../components/CropMarks';
-import { SERVICES_DATA, WHY_PILLARS, PROJECTS_DATA } from '../data/companyData';
-import { ArrowLeft, ArrowRight, Compass, ShieldCheck, Waves, Sparkles, CheckCircle2, Sliders, Camera } from 'lucide-react';
+import { SERVICES_DATA, WHY_PILLARS, PROJECTS_DATA, COMPANY_CONFIG } from '../data/companyData';
+import { ArrowLeft, ArrowRight, Compass, ShieldCheck, Waves, Sparkles, CheckCircle2, Sliders, Camera, MessageCircle } from 'lucide-react';
 import { useSite } from '../context/SiteContext';
 
 export const Home: React.FC = () => {
@@ -122,10 +122,29 @@ export const Home: React.FC = () => {
                 style={{
                   display: 'flex',
                   flexWrap: 'wrap',
-                  gap: '1rem',
+                  gap: '0.85rem',
                   alignItems: 'center',
                 }}
               >
+                <a
+                  href={`https://wa.me/${COMPANY_CONFIG.whatsappNumber}?text=${encodeURIComponent(
+                    lang === 'ar'
+                      ? 'مرحباً دار العمارة، أود الاستفسار عن تصميم وتنفيذ مسبح وحديقة وعروض الأسعار.'
+                      : 'Hello Dar Al Amarah, I would like to inquire about swimming pool & landscape design and quote.'
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-base btn-whatsapp"
+                  id="hero-btn-whatsapp"
+                  style={{
+                    paddingBlock: '0.75rem',
+                    paddingInline: '1.45rem',
+                  }}
+                >
+                  <MessageCircle size={18} />
+                  <span>{lang === 'ar' ? 'استشارة واتساب فورية' : 'Instant WhatsApp Chat'}</span>
+                </a>
+
                 <Button to="/contact" variant="primary" id="hero-btn-contact" icon={<ArrowIcon size={17} />}>
                   {t.heroCtaContact}
                 </Button>
@@ -159,9 +178,9 @@ export const Home: React.FC = () => {
               </div>
             </div>
 
-            {/* Right Blueprint Drawing Animation */}
+            {/* Right Showcase: Real Photos & Architectural Blueprint */}
             <div>
-              <HeroBlueprintSVG />
+              <HeroShowcase />
             </div>
           </div>
         </div>

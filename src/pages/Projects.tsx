@@ -22,6 +22,7 @@ import {
   X,
   Eye,
   MessageSquare,
+  MessageCircle,
   ArrowLeft,
   ArrowRight,
   Sparkles,
@@ -329,6 +330,24 @@ export const Projects: React.FC = () => {
                   ✓ {feat}
                 </span>
               ))}
+            </div>
+
+            {/* Direct WhatsApp Project 1 Inquiry */}
+            <div style={{ marginBlockStart: '1.25rem', display: 'flex', flexWrap: 'wrap', gap: '0.75rem', alignItems: 'center' }}>
+              <a
+                href={`https://wa.me/${COMPANY_CONFIG.whatsappNumber}?text=${encodeURIComponent(
+                  lang === 'ar'
+                    ? `مرحباً دار العمارة، أود الاستفسار عن تنفيذ مشروع مسبح مشابه لـ: (${project1.title} - كود ${project1.code}).`
+                    : `Hello Dar Al Amarah, I would like to inquire about executing a pool project similar to: (${project1.title} - Code ${project1.code}).`
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-base btn-whatsapp"
+                style={{ paddingBlock: '0.55rem', paddingInline: '1.15rem', fontSize: '0.86rem' }}
+              >
+                <MessageCircle size={16} />
+                <span>{lang === 'ar' ? 'طلب معاينة واستشارة لمسبح مماثل عبر واتساب' : 'Inquire About Similar Pool on WhatsApp'}</span>
+              </a>
             </div>
           </div>
 
@@ -786,6 +805,24 @@ export const Projects: React.FC = () => {
                 </span>
               ))}
             </div>
+
+            {/* Direct WhatsApp Project 2 Inquiry */}
+            <div style={{ marginBlockStart: '1.25rem', display: 'flex', flexWrap: 'wrap', gap: '0.75rem', alignItems: 'center' }}>
+              <a
+                href={`https://wa.me/${COMPANY_CONFIG.whatsappNumber}?text=${encodeURIComponent(
+                  lang === 'ar'
+                    ? `مرحباً دار العمارة، أود الاستفسار عن تصميم وتنفيذ حديقة ولاندسكيب مشابه لـ: (${project2.title} - كود ${project2.code}).`
+                    : `Hello Dar Al Amarah, I would like to inquire about landscape design similar to: (${project2.title} - Code ${project2.code}).`
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-base btn-whatsapp"
+                style={{ paddingBlock: '0.55rem', paddingInline: '1.15rem', fontSize: '0.86rem' }}
+              >
+                <MessageCircle size={16} />
+                <span>{lang === 'ar' ? 'طلب دراسة وتصميم حديقة مماثلة عبر واتساب' : 'Inquire About Similar Landscape on WhatsApp'}</span>
+              </a>
+            </div>
           </div>
 
           {/* Project 2: Interactive Before & After Comparison Station */}
@@ -1235,21 +1272,21 @@ export const Projects: React.FC = () => {
 
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '1rem' }}>
             <a
-              href={whatsappInquiryUrl}
+              href={`https://wa.me/${COMPANY_CONFIG.whatsappNumber}?text=${encodeURIComponent(
+                lang === 'ar'
+                  ? 'مرحباً دار العمارة، أود الاستفسار عن استشارة معمارية لمشروعي الخاص وعرض سعر.'
+                  : 'Hello Dar Al Amarah, I would like to consult your engineers about my custom project and get a quote.'
+              )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-base btn-primary"
+              className="btn-base btn-whatsapp"
               style={{
                 paddingBlock: '0.85rem',
                 paddingInline: '1.75rem',
                 fontSize: '0.95rem',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                textDecoration: 'none',
               }}
             >
-              <MessageSquare size={17} />
+              <MessageCircle size={18} />
               <span>{lang === 'ar' ? 'استشر مهندسينا مباشرة عبر واتساب' : 'Consult Our Engineers via WhatsApp'}</span>
             </a>
 

@@ -2,8 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ServiceItem } from '../types';
 import { CropMarks } from './CropMarks';
-import { ArrowLeft, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, CheckCircle2, MessageCircle } from 'lucide-react';
 import { useSite } from '../context/SiteContext';
+import { COMPANY_CONFIG } from '../data/companyData';
 
 interface ServiceCardProps {
   service: ServiceItem;
@@ -192,6 +193,37 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
             <ArrowIcon size={16} />
           </Link>
         )}
+
+        {/* Direct WhatsApp Service Inquiry Button */}
+        <a
+          href={`https://wa.me/${COMPANY_CONFIG.whatsappNumber}?text=${encodeURIComponent(
+            lang === 'ar'
+              ? `مرحباً دار العمارة، أود الاستفسار عن خدمة: (${title}) وطلب استشارة مبدئية.`
+              : `Hello Dar Al Amarah, I would like to inquire about (${title}) and request a consultation.`
+          )}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          title={lang === 'ar' ? 'استفسار عبر واتساب' : 'Inquire via WhatsApp'}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.35rem',
+            paddingBlock: '0.35rem',
+            paddingInline: '0.75rem',
+            fontSize: '0.78rem',
+            fontFamily: 'var(--font-display)',
+            fontWeight: 700,
+            color: '#25D366',
+            border: '1px solid rgba(37, 211, 102, 0.45)',
+            backgroundColor: 'rgba(37, 211, 102, 0.08)',
+            textDecoration: 'none',
+            borderRadius: '3px',
+            transition: 'all var(--transition-standard)',
+          }}
+        >
+          <MessageCircle size={14} />
+          <span>{lang === 'ar' ? 'واتساب' : 'WhatsApp'}</span>
+        </a>
       </div>
     </article>
   );

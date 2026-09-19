@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
-import { Menu, X, PhoneCall, Sun, Moon, Globe } from 'lucide-react';
+import { Menu, X, PhoneCall, Sun, Moon, Globe, MessageCircle } from 'lucide-react';
 import { COMPANY_CONFIG } from '../data/companyData';
 import { DarAlAmarahLogo } from './DarAlAmarahLogo';
 import { useSite } from '../context/SiteContext';
@@ -113,6 +113,37 @@ export const Header: React.FC = () => {
 
         {/* Controls: Language Switcher + Theme Toggle + Quote Button */}
         <div className="header-controls" style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', flexShrink: 0 }}>
+          {/* Direct WhatsApp Button */}
+          <a
+            href={`https://wa.me/${COMPANY_CONFIG.whatsappNumber}?text=${encodeURIComponent(
+              lang === 'ar' ? 'مرحباً دار العمارة، أود الاستفسار عن استشارة معمارية وعرض سعر.' : 'Hello Dar Al Amarah, I would like to inquire about architectural consultation and quote.'
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            id="header-whatsapp-btn"
+            title={lang === 'ar' ? 'محادثة واتساب سريعة' : 'Quick WhatsApp Chat'}
+            aria-label={lang === 'ar' ? 'محادثة واتساب سريعة' : 'Quick WhatsApp Chat'}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.35rem',
+              padding: '0.45rem 0.75rem',
+              backgroundColor: '#25D366',
+              border: '1px solid #1EBE5D',
+              borderRadius: '3px',
+              color: '#FFFFFF',
+              fontWeight: 700,
+              fontSize: '0.82rem',
+              textDecoration: 'none',
+              cursor: 'pointer',
+              boxShadow: '0 2px 8px rgba(37, 211, 102, 0.3)',
+              transition: 'all var(--transition-standard)',
+            }}
+          >
+            <MessageCircle size={15} />
+            <span className="header-whatsapp-text">{lang === 'ar' ? 'واتساب' : 'WhatsApp'}</span>
+          </a>
+
           {/* Language Switcher Button */}
           <button
             type="button"
@@ -305,6 +336,19 @@ export const Header: React.FC = () => {
               <PhoneCall size={16} />
               <span>{t.navConsultationBtn}</span>
             </Link>
+
+            <a
+              href={`https://wa.me/${COMPANY_CONFIG.whatsappNumber}?text=${encodeURIComponent(
+                lang === 'ar' ? 'مرحباً دار العمارة، أود الاستفسار عن خدمات المسابح والحدائق وعروض الأسعار.' : 'Hello Dar Al Amarah, I would like to inquire about pool and landscaping services.'
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-base btn-whatsapp"
+              style={{ width: '100%', marginBlockStart: '0.65rem' }}
+            >
+              <MessageCircle size={17} />
+              <span>{lang === 'ar' ? 'محادثة فورية عبر واتساب' : 'Instant WhatsApp Chat'}</span>
+            </a>
 
             <div
               style={{

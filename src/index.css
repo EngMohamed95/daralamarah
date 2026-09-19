@@ -406,14 +406,73 @@ html[lang="en"] .font-display {
 
 .btn-secondary {
   background-color: #FFFFFF;
-  color: var(--color-graphite);
-  border-color: var(--color-border-bright);
+  color: #14171A !important;
+  border: 1.5px solid var(--color-copper);
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.btn-secondary * {
+  color: inherit !important;
 }
 
 .btn-secondary:hover {
-  background-color: rgba(186, 147, 104, 0.1);
+  background-color: var(--color-copper);
   border-color: var(--color-copper);
-  color: var(--color-copper);
+  color: #FFFFFF !important;
+  box-shadow: 0 6px 20px rgba(186, 147, 104, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-secondary:hover * {
+  color: #FFFFFF !important;
+}
+
+[data-theme="dark"] .btn-secondary {
+  background-color: #FFFFFF;
+  color: #14171A !important;
+  border: 1.5px solid var(--color-copper);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="dark"] .btn-secondary * {
+  color: inherit !important;
+}
+
+[data-theme="dark"] .btn-secondary:hover {
+  background-color: var(--color-copper);
+  border-color: var(--color-copper);
+  color: #FFFFFF !important;
+  box-shadow: 0 6px 20px rgba(186, 147, 104, 0.45);
+}
+
+[data-theme="dark"] .btn-secondary:hover * {
+  color: #FFFFFF !important;
+}
+
+/* زر الواتساب المعماري المعتمد في كامل الموقع */
+.btn-whatsapp {
+  background-color: #25D366;
+  color: #FFFFFF !important;
+  border: 1px solid #1EBE5D;
+  font-family: var(--font-display);
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.3);
+  transition: all var(--transition-standard);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-whatsapp:hover {
+  background-color: #20BA5A;
+  border-color: #20BA5A;
+  color: #FFFFFF !important;
+  box-shadow: 0 6px 22px rgba(37, 211, 102, 0.45);
+  transform: translateY(-1px);
 }
 
 .btn-stone-primary {

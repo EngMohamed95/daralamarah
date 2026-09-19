@@ -13,7 +13,9 @@ import {
   Sparkles,
   Maximize2,
   Users,
+  MessageCircle,
 } from 'lucide-react';
+import { COMPANY_CONFIG } from '../data/companyData';
 import { useSite } from '../context/SiteContext';
 
 export const Why: React.FC = () => {
@@ -343,9 +345,26 @@ export const Why: React.FC = () => {
           <h3 style={{ marginBlockEnd: '1rem', color: 'var(--color-text-primary)' }}>
             {lang === 'ar' ? 'اختر راحة البال وجودة التنفيذ التي تستحقها' : 'Choose Peace of Mind and the Quality Your Home Deserves'}
           </h3>
-          <Button to="/contact" variant="primary" icon={<ArrowIcon size={16} />}>
-            {lang === 'ar' ? 'تحدث مع فريقنا الهندسي اليوم' : 'Speak with Our Engineers Today'}
-          </Button>
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '1rem', alignItems: 'center' }}>
+            <a
+              href={`https://wa.me/${COMPANY_CONFIG.whatsappNumber}?text=${encodeURIComponent(
+                lang === 'ar'
+                  ? 'مرحباً دار العمارة، أود مناقشة مشروعي مع فريقكم الهندسي عبر واتساب.'
+                  : 'Hello Dar Al Amarah, I would like to discuss my project with your engineering team via WhatsApp.'
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-base btn-whatsapp"
+              style={{ paddingBlock: '0.75rem', paddingInline: '1.5rem' }}
+            >
+              <MessageCircle size={18} />
+              <span>{lang === 'ar' ? 'تحدث مع مهندسينا عبر واتساب' : 'Chat with Engineers on WhatsApp'}</span>
+            </a>
+
+            <Button to="/contact" variant="secondary" icon={<ArrowIcon size={16} />}>
+              {lang === 'ar' ? 'طلب معاينة ميدانية' : 'Request a Site Survey'}
+            </Button>
+          </div>
         </div>
       </div>
     </div>
