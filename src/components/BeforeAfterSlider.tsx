@@ -320,15 +320,15 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
           <div
             style={{
               position: 'absolute',
-              top: '1rem',
-              left: '1rem',
+              top: '0.75rem',
+              left: '0.75rem',
               backgroundColor: 'rgba(79, 79, 79, 0.92)',
               backdropFilter: 'blur(8px)',
               border: '1px solid rgba(186, 147, 104, 0.5)',
               color: '#FFFFFF',
               paddingBlock: '0.35rem',
-              paddingInline: '0.85rem',
-              fontSize: '0.82rem',
+              paddingInline: '0.75rem',
+              fontSize: 'clamp(0.72rem, 2.2vw, 0.82rem)',
               fontFamily: 'var(--font-display)',
               display: 'flex',
               alignItems: 'center',
@@ -336,6 +336,10 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
               zIndex: 5,
               pointerEvents: 'none',
               boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+              maxWidth: '46%',
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
+              textOverflow: 'ellipsis',
             }}
           >
             <span
@@ -345,24 +349,27 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
                 borderRadius: '50%',
                 backgroundColor: '#BA9368',
                 display: 'inline-block',
+                flexShrink: 0,
               }}
             />
-            <span>{pair.beforeLabel || (lang === 'ar' ? 'قبل البدء (المرحلة الإنشائية)' : 'BEFORE (Under Construction)')}</span>
+            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              {pair.beforeLabel || (lang === 'ar' ? 'قبل البدء (المرحلة الإنشائية)' : 'BEFORE (Under Construction)')}
+            </span>
           </div>
 
           {/* After Badge (Right Side) */}
           <div
             style={{
               position: 'absolute',
-              top: '1rem',
-              right: '1rem',
+              top: '0.75rem',
+              right: '0.75rem',
               backgroundColor: '#BA9368',
               backdropFilter: 'blur(8px)',
               border: '1px solid #FFFFFF',
               color: '#FFFFFF',
               paddingBlock: '0.35rem',
-              paddingInline: '0.85rem',
-              fontSize: '0.82rem',
+              paddingInline: '0.75rem',
+              fontSize: 'clamp(0.72rem, 2.2vw, 0.82rem)',
               fontFamily: 'var(--font-display)',
               display: 'flex',
               alignItems: 'center',
@@ -370,6 +377,10 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
               zIndex: 5,
               pointerEvents: 'none',
               boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+              maxWidth: '46%',
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
+              textOverflow: 'ellipsis',
             }}
           >
             <span
@@ -379,9 +390,12 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
                 borderRadius: '50%',
                 backgroundColor: '#FFFFFF',
                 display: 'inline-block',
+                flexShrink: 0,
               }}
             />
-            <span>{pair.afterLabel || (lang === 'ar' ? 'بعد التسليم (الإنجاز المعماري)' : 'AFTER (Handover)')}</span>
+            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              {pair.afterLabel || (lang === 'ar' ? 'بعد التسليم (الإنجاز المعماري)' : 'AFTER (Handover)')}
+            </span>
           </div>
 
           {/* Hint Overlay (fades out after first interaction) */}
@@ -396,16 +410,21 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
                 backdropFilter: 'blur(8px)',
                 border: '1px solid var(--color-border-bright)',
                 paddingBlock: '0.4rem',
-                paddingInline: '1rem',
-                fontSize: '0.8rem',
+                paddingInline: '0.85rem',
+                fontSize: 'clamp(0.7rem, 2.2vw, 0.8rem)',
                 color: 'var(--color-copper-light)',
                 borderRadius: '20px',
                 zIndex: 6,
                 pointerEvents: 'none',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.4rem',
+                justifyContent: 'center',
+                gap: '0.35rem',
                 animation: 'pulse 2s infinite',
+                width: 'max-content',
+                maxWidth: 'calc(100% - 1.5rem)',
+                textAlign: 'center',
+                boxSizing: 'border-box',
               }}
             >
               <span>{lang === 'ar' ? '↔ اسحب المقبض الذهبي يميناً ويساراً للمقارنة' : '↔ Drag the golden handle to compare before & after'}</span>
@@ -417,7 +436,7 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
             gap: '1.25rem',
           }}
         >

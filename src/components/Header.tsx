@@ -39,7 +39,7 @@ export const Header: React.FC = () => {
       }}
     >
       <div
-        className="app-container"
+        className="app-container header-container"
         style={{
           display: 'flex',
           alignItems: 'center',
@@ -112,7 +112,7 @@ export const Header: React.FC = () => {
         </nav>
 
         {/* Controls: Language Switcher + Theme Toggle + Quote Button */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', flexShrink: 0 }}>
+        <div className="header-controls" style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', flexShrink: 0 }}>
           {/* Language Switcher Button */}
           <button
             type="button"

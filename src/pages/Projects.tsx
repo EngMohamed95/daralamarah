@@ -211,6 +211,7 @@ export const Projects: React.FC = () => {
               fontSize: '0.8rem',
               color: 'var(--color-copper-light)',
               display: 'flex',
+              flexWrap: 'wrap',
               alignItems: 'center',
               gap: '0.45rem',
             }}
@@ -429,7 +430,7 @@ export const Projects: React.FC = () => {
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
                 gap: '1rem',
               }}
             >
@@ -582,7 +583,7 @@ export const Projects: React.FC = () => {
               <div
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 180px), 1fr))',
                   gap: '1rem',
                 }}
               >
@@ -640,7 +641,7 @@ export const Projects: React.FC = () => {
               <div
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
                   gap: '1.5rem',
                 }}
               >
@@ -863,7 +864,7 @@ export const Projects: React.FC = () => {
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
                 gap: '1rem',
               }}
             >
@@ -990,7 +991,7 @@ export const Projects: React.FC = () => {
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 180px), 1fr))',
                 gap: '1rem',
               }}
             >
@@ -1070,7 +1071,7 @@ export const Projects: React.FC = () => {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
               gap: '2rem',
             }}
           >

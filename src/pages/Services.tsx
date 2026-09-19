@@ -28,7 +28,7 @@ export const Services: React.FC = () => {
             padding: '1.25rem 1.5rem',
             marginBlockEnd: '3rem',
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))',
             gap: '1.25rem',
             alignItems: 'center',
           }}
@@ -87,7 +87,7 @@ export const Services: React.FC = () => {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
             gap: '2rem',
             marginBlockEnd: '4.5rem',
           }}

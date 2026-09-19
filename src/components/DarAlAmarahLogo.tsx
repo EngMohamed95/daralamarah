@@ -251,18 +251,20 @@ export const DarAlAmarahLogo: React.FC<DarAlAmarahLogoProps> = ({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: 'clamp(1rem, 2.5vw, 2rem)',
+          gap: 'clamp(0.75rem, 2.5vw, 2rem)',
           color: primaryColor,
           direction: 'ltr',
+          maxWidth: '100%',
+          boxSizing: 'border-box',
         }}
       >
         {/* Left: English Typography */}
-        <div style={{ textAlign: 'center', flexShrink: 0 }}>
+        <div style={{ textAlign: 'center' }}>
           <div
             style={{
               fontFamily: 'var(--font-slab)',
               fontWeight: 700,
-              fontSize: `clamp(1.1rem, ${size * 0.28}px, 1.7rem)`,
+              fontSize: `clamp(1rem, ${size * 0.26}px, 1.7rem)`,
               letterSpacing: '0.04em',
               lineHeight: 1.1,
               color: isWhite ? '#FFFFFF' : graphiteColor,
@@ -274,7 +276,7 @@ export const DarAlAmarahLogo: React.FC<DarAlAmarahLogoProps> = ({
             style={{
               fontFamily: 'var(--font-subtitle)',
               fontWeight: 400,
-              fontSize: `clamp(0.68rem, ${size * 0.16}px, 0.92rem)`,
+              fontSize: `clamp(0.65rem, ${size * 0.15}px, 0.92rem)`,
               letterSpacing: '0.22em',
               marginBlockStart: '0.25rem',
               color: isWhite ? '#FFFFFF' : goldColor,
@@ -285,15 +287,15 @@ export const DarAlAmarahLogo: React.FC<DarAlAmarahLogoProps> = ({
         </div>
 
         {/* Center: Circular Emblem */}
-        <EmblemSVG size={size} color={primaryColor} />
+        <EmblemSVG size={size} color={primaryColor} className="dar-al-amarah-emblem" />
 
         {/* Right: Arabic Typography */}
-        <div style={{ textAlign: 'center', direction: 'rtl', flexShrink: 0 }}>
+        <div style={{ textAlign: 'center', direction: 'rtl' }}>
           <div
             style={{
               fontFamily: 'var(--font-brand-arabic)',
               fontWeight: 700,
-              fontSize: `clamp(1.3rem, ${size * 0.32}px, 2rem)`,
+              fontSize: `clamp(1.2rem, ${size * 0.3}px, 2rem)`,
               letterSpacing: '-0.01em',
               lineHeight: 1.15,
               color: isWhite ? '#FFFFFF' : graphiteColor,
@@ -305,7 +307,7 @@ export const DarAlAmarahLogo: React.FC<DarAlAmarahLogoProps> = ({
             style={{
               fontFamily: 'var(--font-brand-arabic)',
               fontWeight: 500,
-              fontSize: `clamp(0.72rem, ${size * 0.16}px, 0.98rem)`,
+              fontSize: `clamp(0.7rem, ${size * 0.15}px, 0.98rem)`,
               marginBlockStart: '0.25rem',
               color: isWhite ? '#FFFFFF' : goldColor,
             }}
@@ -397,12 +399,13 @@ export const DarAlAmarahLogo: React.FC<DarAlAmarahLogoProps> = ({
       style={{
         display: 'flex',
         alignItems: 'center',
-        gap: '0.85rem',
+        gap: 'clamp(0.45rem, 1.8vw, 0.85rem)',
         color: primaryColor,
         textDecoration: 'none',
+        maxWidth: '100%',
       }}
     >
-      <EmblemSVG size={size} color={goldColor} />
+      <EmblemSVG size={size} color={goldColor} className="navbar-logo-emblem" />
 
       <div
         style={{
@@ -410,29 +413,34 @@ export const DarAlAmarahLogo: React.FC<DarAlAmarahLogoProps> = ({
           flexDirection: 'column',
           direction: showEnglish ? 'ltr' : 'rtl',
           textAlign: showEnglish ? 'left' : 'right',
+          minWidth: 0,
         }}
       >
         <div
+          className="navbar-logo-title"
           style={{
             fontFamily: showEnglish ? 'var(--font-slab)' : 'var(--font-brand-arabic)',
             fontWeight: 700,
-            fontSize: showEnglish ? '1.18rem' : '1.38rem',
+            fontSize: showEnglish ? 'clamp(0.92rem, 3vw, 1.18rem)' : 'clamp(1.02rem, 3.5vw, 1.38rem)',
             lineHeight: 1.15,
             letterSpacing: showEnglish ? '0.03em' : '-0.02em',
             color: isWhite ? '#FFFFFF' : graphiteColor,
+            whiteSpace: 'nowrap',
           }}
         >
           {showEnglish ? 'DAR AL AMARAH' : 'دار العمــــــــارة'}
         </div>
 
         <div
+          className="navbar-logo-subtitle"
           style={{
             fontFamily: showEnglish ? 'var(--font-subtitle)' : 'var(--font-brand-arabic)',
             fontWeight: showEnglish ? 400 : 500,
-            fontSize: showEnglish ? '0.62rem' : '0.74rem',
-            letterSpacing: showEnglish ? '0.22em' : '0.02em',
+            fontSize: showEnglish ? 'clamp(0.52rem, 1.8vw, 0.62rem)' : 'clamp(0.6rem, 2vw, 0.74rem)',
+            letterSpacing: showEnglish ? '0.18em' : '0.02em',
             color: isWhite ? '#FFFFFF' : goldColor,
             marginBlockStart: '2px',
+            whiteSpace: 'nowrap',
           }}
         >
           {showEnglish ? 'LANDSCAPING & POOL' : 'للحدائق و المسابح'}

@@ -96,8 +96,8 @@ Please reach out to discuss plans and schedule a site survey. Thank you.`;
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '3rem',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
+            gap: 'clamp(1.5rem, 3vw, 3rem)',
             alignItems: 'flex-start',
             marginBlockEnd: '4rem',
           }}

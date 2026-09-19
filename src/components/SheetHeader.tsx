@@ -50,8 +50,9 @@ export const SheetHeader: React.FC<SheetHeaderProps> = ({
             fontSize: '0.8rem',
             color: isStone ? 'var(--color-copper-light)' : 'var(--color-text-muted)',
             display: 'flex',
+            flexWrap: 'wrap',
             alignItems: 'center',
-            gap: '0.75rem',
+            gap: '0.4rem 0.75rem',
           }}
         >
           <span>{displayScale}</span>

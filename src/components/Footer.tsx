@@ -48,6 +48,8 @@ export const Footer: React.FC = () => {
             marginBlockEnd: '3rem',
             display: 'flex',
             justifyContent: 'center',
+            maxWidth: '100%',
+            overflow: 'hidden',
           }}
         >
           <DarAlAmarahLogo
@@ -61,7 +63,7 @@ export const Footer: React.FC = () => {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))',
             gap: '2.5rem',
             marginBlockEnd: '3.5rem',
           }}
@@ -362,7 +364,7 @@ export const Footer: React.FC = () => {
           <div>
             © {currentYear} {lang === 'ar' ? COMPANY_CONFIG.legalName : COMPANY_CONFIG.legalNameEn} • {lang === 'ar' ? 'دولة الإمارات العربية المتحدة' : 'United Arab Emirates'}
           </div>
-          <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'center' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem 1.25rem', alignItems: 'center' }}>
             <span>{lang === 'ar' ? 'المسابح' : 'Pools'}</span>
             <span>•</span>
             <span>{lang === 'ar' ? 'تنسيق الحدائق' : 'Landscaping'}</span>
