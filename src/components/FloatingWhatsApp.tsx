@@ -107,11 +107,15 @@ export const FloatingWhatsApp: React.FC = () => {
               {lang === 'ar' ? 'دار العمارة — استشارة فورية' : 'Dar Al Amarah — Live Chat'}
             </div>
             <div
+              dir="ltr"
               style={{
                 fontSize: '0.74rem',
                 color: 'var(--color-copper)',
                 fontFamily: 'var(--font-display)',
                 fontWeight: 600,
+                direction: 'ltr',
+                unicodeBidi: 'plaintext',
+                textAlign: lang === 'ar' ? 'right' : 'left',
               }}
             >
               {displayPhone}
