@@ -1,11 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
 import {
   ArrowLeft,
   ArrowRight,
   Check,
   CircleCheck,
-  MessageCircle,
   Play,
   ShieldCheck,
   Sparkles,
@@ -14,11 +12,13 @@ import { useSite } from '../context/SiteContext';
 import { COMPANY_CONFIG, PROCESS_STAGES, PROJECTS_DATA, SERVICES_DATA, WHY_PILLARS } from '../data/companyData';
 import { Badge } from '../components/ui/badge';
 import { Card } from '../components/ui/card';
+import { LandingLeadForm } from '../components/LandingLeadForm';
 
 const serviceImages = [
   '/projects/project-1/after/after-1.jpg',
   '/projects/project-2/after/after-4.jpg',
   '/projects/project-1/after/after-7.jpg',
+  '/projects/project-2/after/after-9.jpg',
 ];
 
 export const Home: React.FC = () => {
@@ -30,6 +30,11 @@ export const Home: React.FC = () => {
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [typedText, setTypedText] = useState('');
   const [deleting, setDeleting] = useState(false);
+
+  useEffect(() => {
+    if (!window.location.hash) return;
+    window.requestAnimationFrame(() => document.querySelector(window.location.hash)?.scrollIntoView({ block: 'start' }));
+  }, []);
 
   useEffect(() => {
     setPhraseIndex(0);
@@ -59,7 +64,7 @@ export const Home: React.FC = () => {
 
   return (
     <div className="neo-home">
-      <section className="neo-hero">
+      <section className="neo-hero" id="top">
         <div className="neo-hero-video-bg" aria-hidden="true">
           <img src="/media/ai-pool-hero-poster.png" alt="" />
         </div>
@@ -76,13 +81,13 @@ export const Home: React.FC = () => {
             </h1>
             <p>{t.heroDescription}</p>
             <div className="neo-actions">
-              <Link to="/contact" className="neo-btn neo-btn-primary">
+              <a href="#contact" className="neo-btn neo-btn-primary">
                 {t.heroCtaContact}<ArrowIcon size={18} />
-              </Link>
-              <Link to="/projects" className="neo-text-link">
+              </a>
+              <a href="#projects" className="neo-text-link">
                 <span className="neo-play"><Play size={14} fill="currentColor" /></span>
                 {t.heroCtaProjects}
-              </Link>
+              </a>
             </div>
             <div className="neo-trust-row">
               <span><CircleCheck size={17} /> {lang === 'ar' ? 'ضمانات تنفيذ معتمدة' : 'Certified warranties'}</span>
@@ -101,7 +106,7 @@ export const Home: React.FC = () => {
         </div>
       </div>
 
-      <section className="neo-section neo-services">
+      <section className="neo-section neo-services" id="services">
         <div className="app-container">
           <div className="neo-section-head">
             <div>
@@ -109,23 +114,23 @@ export const Home: React.FC = () => {
               <h2>{t.homeServicesTitle}</h2>
               <p>{t.homeServicesDesc}</p>
             </div>
-            <Link to="/services" className="neo-outline-btn">{t.viewAllServicesBtn}<ArrowIcon size={17} /></Link>
+            <a href="#contact" className="neo-outline-btn">{lang === 'ar' ? 'اطلب الخدمة المناسبة' : 'Request the right service'}<ArrowIcon size={17} /></a>
           </div>
           <div className="neo-service-grid">
-            {SERVICES_DATA.slice(0, 3).map((service, index) => (
+            {SERVICES_DATA.map((service, index) => (
               <Card className={`neo-service-card neo-card-${index + 1}`} key={service.id}>
                 <div className="neo-service-number">0{index + 1}</div>
-                <div className="neo-service-image"><img src={serviceImages[index]} alt={lang === 'ar' ? service.title : service.titleEn} /></div>
+                <div className="neo-service-image"><img src={serviceImages[index % serviceImages.length]} alt={lang === 'ar' ? service.title : service.titleEn} /></div>
                 <h3>{lang === 'ar' ? service.title : service.titleEn}</h3>
                 <p>{lang === 'ar' ? service.shortDesc : service.shortDescEn}</p>
-                <Link to="/services">{lang === 'ar' ? 'اكتشف التفاصيل' : 'Discover details'} <ArrowIcon size={16} /></Link>
+                <a href="#contact">{lang === 'ar' ? 'اطلب هذه الخدمة' : 'Request this service'} <ArrowIcon size={16} /></a>
               </Card>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="neo-section neo-feature">
+      <section className="neo-section neo-feature" id="about">
         <div className="app-container neo-feature-grid">
           <div className="neo-feature-collage">
             <img className="neo-feature-main" src="/projects/project-2/after/after-9.jpg" alt="" />
@@ -141,12 +146,12 @@ export const Home: React.FC = () => {
                 <li key={pillar.number}><span><Check size={16} /></span>{lang === 'ar' ? pillar.title : pillar.titleEn}</li>
               ))}
             </ul>
-            <Link to="/why" className="neo-btn neo-btn-dark">{lang === 'ar' ? 'لماذا دار العمارة؟' : 'Why Dar Al Amarah?'}<ArrowIcon size={18} /></Link>
+            <a href="#process" className="neo-btn neo-btn-dark">{lang === 'ar' ? 'اكتشف طريقة عملنا' : 'Discover our process'}<ArrowIcon size={18} /></a>
           </div>
         </div>
       </section>
 
-      <section className="neo-section neo-projects">
+      <section className="neo-section neo-projects" id="projects">
         <div className="app-container">
           <div className="neo-section-head neo-centered-head">
             <div>
@@ -155,22 +160,22 @@ export const Home: React.FC = () => {
             </div>
           </div>
           <div className="neo-project-grid">
-            {PROJECTS_DATA.slice(0, 3).map((project, index) => (
-              <Link className="neo-project-card" to="/projects" key={project.id}>
+            {PROJECTS_DATA.map((project, index) => (
+              <a className="neo-project-card" href="#contact" key={project.id}>
                 <img src={serviceImages[index]} alt={lang === 'ar' ? project.title : project.titleEn} />
                 <div className="neo-project-overlay">
                   <small>{lang === 'ar' ? project.location : project.locationEn}</small>
                   <h3>{lang === 'ar' ? project.title : project.titleEn}</h3>
                   <span>{lang === 'ar' ? project.categoryLabel : project.categoryLabelEn}<ArrowIcon size={16} /></span>
                 </div>
-              </Link>
+              </a>
             ))}
           </div>
-          <div className="neo-center-action"><Link to="/projects" className="neo-outline-btn">{lang === 'ar' ? 'شاهد كل المشاريع' : 'View all projects'}<ArrowIcon size={17} /></Link></div>
+          <div className="neo-center-action"><a href="#contact" className="neo-outline-btn">{lang === 'ar' ? 'نفّذ مشروعًا مشابهًا' : 'Build a similar project'}<ArrowIcon size={17} /></a></div>
         </div>
       </section>
 
-      <section className="neo-section neo-process">
+      <section className="neo-section neo-process" id="process">
         <div className="app-container">
           <div className="neo-section-head">
             <div><Badge variant="outline" className="neo-kicker">{lang === 'ar' ? 'طريقة العمل' : 'How it works'}</Badge><h2>{lang === 'ar' ? 'رحلة واضحة من الفكرة إلى التسليم' : 'A clear journey from idea to handover'}</h2></div>
@@ -194,7 +199,7 @@ export const Home: React.FC = () => {
             <h2>{lang === 'ar' ? 'النتيجة التي تتحدث عن نفسها' : 'Results that speak for themselves'}</h2>
             <p>{lang === 'ar' ? 'نحوّل المساحات الخام إلى حدائق ومسابح متكاملة بتفاصيل مدروسة وجودة تنفيذ تظهر في كل زاوية.' : 'We transform raw spaces into complete landscapes and pools, with considered details and visible craftsmanship.'}</p>
             <div className="neo-proof"><ShieldCheck size={24} /><span>{lang === 'ar' ? 'إشراف هندسي وجودة موثقة في كل مرحلة' : 'Engineering supervision and documented quality at every stage'}</span></div>
-            <Link to="/projects" className="neo-btn neo-btn-primary">{lang === 'ar' ? 'شاهد التحولات الكاملة' : 'See full transformations'}<ArrowIcon size={18} /></Link>
+            <a href="#contact" className="neo-btn neo-btn-primary">{lang === 'ar' ? 'اطلب تحولًا مشابهًا' : 'Request a similar transformation'}<ArrowIcon size={18} /></a>
           </div>
           <div className="neo-before-after">
             <div><img src="/projects/project-1/before/before-1.jpg" alt="Before" /><span>{lang === 'ar' ? 'قبل' : 'Before'}</span></div>
@@ -203,17 +208,8 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
-      <section className="neo-cta">
-        <div className="neo-cta-orb" />
-        <div className="app-container">
-          <Badge variant="outline" className="neo-kicker">{t.homeCtaTag}</Badge>
-          <h2>{t.homeCtaTitle}</h2>
-          <p>{t.homeCtaDesc}</p>
-          <div className="neo-actions neo-cta-actions">
-            <Link to="/contact" className="neo-btn neo-btn-light">{t.homeCtaBtn}<ArrowIcon size={18} /></Link>
-            <a className="neo-btn neo-btn-whatsapp" href={`https://wa.me/${COMPANY_CONFIG.whatsappNumber}`} target="_blank" rel="noreferrer"><MessageCircle size={19} />{lang === 'ar' ? 'تواصل عبر واتساب' : 'Chat on WhatsApp'}</a>
-          </div>
-        </div>
+      <section className="neo-landing-contact" id="contact">
+        <LandingLeadForm />
       </section>
     </div>
   );

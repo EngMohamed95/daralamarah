@@ -19,12 +19,12 @@ export const Footer: React.FC = () => {
   const { lang, theme, t } = useSite();
 
   const quickLinks = [
-    { path: '/', label: t.navHome },
-    { path: '/projects', label: t.navProjects },
-    { path: '/services', label: t.navServices },
-    { path: '/why', label: t.navWhy },
-    { path: '/about', label: t.navAbout },
-    { path: '/contact', label: t.navContact },
+    { path: '/#top', label: t.navHome },
+    { path: '/#projects', label: t.navProjects },
+    { path: '/#services', label: t.navServices },
+    { path: '/#process', label: t.navWhy },
+    { path: '/#about', label: t.navAbout },
+    { path: '/#contact', label: t.navContact },
   ];
 
   return (
@@ -190,7 +190,7 @@ export const Footer: React.FC = () => {
               {SERVICES_DATA.slice(0, 5).map((srv) => (
                 <li key={srv.id}>
                   <Link
-                    to={`/services#${srv.id}`}
+                    to="/#services"
                     style={{
                       display: 'flex',
                       alignItems: 'center',
