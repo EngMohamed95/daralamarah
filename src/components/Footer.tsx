@@ -94,6 +94,7 @@ export const Footer: React.FC = () => {
 
             {/* Architectural Engineering Registry Box */}
             <div
+              className="footer-license-card"
               style={{
                 border: '1px solid var(--color-border-subtle)',
                 backgroundColor: 'var(--color-bg-primary)',

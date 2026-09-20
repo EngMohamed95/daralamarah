@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { UIButton } from './ui/button';
 
 interface ButtonProps {
   children: React.ReactNode;
@@ -24,49 +25,39 @@ export const Button: React.FC<ButtonProps> = ({
   id,
   icon,
 }) => {
-  const getVariantClass = () => {
+  const getVariant = (): 'default' | 'secondary' => {
     switch (variant) {
       case 'secondary':
-        return 'btn-secondary';
+        return 'secondary';
       case 'stone-primary':
-        return 'btn-stone-primary';
+        return 'default';
       case 'primary':
       default:
-        return 'btn-primary';
+        return 'default';
     }
   };
 
-  const combinedClass = `btn-base ${getVariantClass()} ${className}`.trim();
-
   if (to) {
     return (
-      <Link to={to} className={combinedClass} id={id} onClick={onClick}>
-        {children}
-        {icon && <span style={{ display: 'inline-flex', alignItems: 'center' }}>{icon}</span>}
-      </Link>
+      <UIButton asChild variant={getVariant()} className={className}>
+        <Link to={to} id={id} onClick={onClick}>{children}{icon && <span className="ui-button__icon">{icon}</span>}</Link>
+      </UIButton>
     );
   }
 
   if (href) {
     return (
-      <a
-        href={href}
-        className={combinedClass}
-        id={id}
-        onClick={onClick}
-        target={href.startsWith('http') ? '_blank' : undefined}
-        rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
-      >
-        {children}
-        {icon && <span style={{ display: 'inline-flex', alignItems: 'center' }}>{icon}</span>}
-      </a>
+      <UIButton asChild variant={getVariant()} className={className}>
+        <a href={href} id={id} onClick={onClick} target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}>
+          {children}{icon && <span className="ui-button__icon">{icon}</span>}
+        </a>
+      </UIButton>
     );
   }
 
   return (
-    <button type={type} className={combinedClass} id={id} onClick={onClick}>
-      {children}
-      {icon && <span style={{ display: 'inline-flex', alignItems: 'center' }}>{icon}</span>}
-    </button>
+    <UIButton type={type} variant={getVariant()} className={className} id={id} onClick={onClick}>
+      {children}{icon && <span className="ui-button__icon">{icon}</span>}
+    </UIButton>
   );
 };

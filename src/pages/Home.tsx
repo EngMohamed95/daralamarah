@@ -1,760 +1,217 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { HeroShowcase } from '../components/HeroShowcase';
-import { ServiceCard } from '../components/ServiceCard';
-import { Button } from '../components/Button';
-import { CropMarks } from '../components/CropMarks';
-import { SERVICES_DATA, WHY_PILLARS, PROJECTS_DATA, COMPANY_CONFIG } from '../data/companyData';
-import { ArrowLeft, ArrowRight, Compass, ShieldCheck, Waves, Sparkles, CheckCircle2, Sliders, Camera, MessageCircle } from 'lucide-react';
+import {
+  ArrowLeft,
+  ArrowRight,
+  Check,
+  CircleCheck,
+  MessageCircle,
+  Play,
+  ShieldCheck,
+  Sparkles,
+} from 'lucide-react';
 import { useSite } from '../context/SiteContext';
+import { COMPANY_CONFIG, PROCESS_STAGES, PROJECTS_DATA, SERVICES_DATA, WHY_PILLARS } from '../data/companyData';
+import { Badge } from '../components/ui/badge';
+import { Card } from '../components/ui/card';
+
+const serviceImages = [
+  '/projects/project-1/after/after-1.jpg',
+  '/projects/project-2/after/after-4.jpg',
+  '/projects/project-1/after/after-7.jpg',
+];
 
 export const Home: React.FC = () => {
-  const { lang, theme, t } = useSite();
+  const { lang, t } = useSite();
   const ArrowIcon = lang === 'ar' ? ArrowLeft : ArrowRight;
+  const typingPhrases = useMemo(() => lang === 'ar'
+    ? ['المسابح الفاخرة', 'الحدائق والمساحات الخارجية', 'النوافير والعناصر المائية']
+    : ['luxury swimming pools', 'landscapes & outdoor spaces', 'architectural water features'], [lang]);
+  const [phraseIndex, setPhraseIndex] = useState(0);
+  const [typedText, setTypedText] = useState('');
+  const [deleting, setDeleting] = useState(false);
+
+  useEffect(() => {
+    setPhraseIndex(0);
+    setTypedText('');
+    setDeleting(false);
+  }, [lang]);
+
+  useEffect(() => {
+    const phrase = typingPhrases[phraseIndex];
+    const finishedTyping = !deleting && typedText === phrase;
+    const finishedDeleting = deleting && typedText === '';
+    const delay = finishedTyping ? 1800 : finishedDeleting ? 320 : deleting ? 42 : 76;
+
+    const timer = window.setTimeout(() => {
+      if (finishedTyping) {
+        setDeleting(true);
+      } else if (finishedDeleting) {
+        setDeleting(false);
+        setPhraseIndex((current) => (current + 1) % typingPhrases.length);
+      } else {
+        setTypedText(phrase.slice(0, typedText.length + (deleting ? -1 : 1)));
+      }
+    }, delay);
+
+    return () => window.clearTimeout(timer);
+  }, [deleting, phraseIndex, typedText, typingPhrases]);
 
   return (
-    <div className="home-page" style={{ paddingBlockEnd: '5rem' }}>
-      {/* ====================================================================
-          HERO SECTION — مخطط هندسي تفاعلي وعناوين واضحة
-          ==================================================================== */}
-      <section
-        style={{
-          position: 'relative',
-          paddingBlockStart: 'clamp(3rem, 6vw, 5rem)',
-          paddingBlockEnd: 'clamp(3.5rem, 7vw, 6rem)',
-          borderBlockEnd: '1px solid var(--color-border-bright)',
-        }}
-      >
-        <div className="app-container">
-          {/* Architectural Drawing Tag / Sheet Marker */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              marginBlockEnd: '2rem',
-              flexWrap: 'wrap',
-              gap: '0.75rem',
-            }}
-          >
-            <div className="sheet-tag">
-              <span>{lang === 'ar' ? 'المخطط العام' : 'MASTER PLAN'}</span>
-              <span style={{ opacity: 0.5 }}>|</span>
-              <span style={{ fontWeight: 700 }}>A—00</span>
-              <span style={{ opacity: 0.5 }}>|</span>
-              <span>{lang === 'ar' ? 'دولة الإمارات العربية المتحدة' : 'United Arab Emirates'}</span>
+    <div className="neo-home">
+      <section className="neo-hero">
+        <div className="neo-hero-video-bg" aria-hidden="true">
+          <img src="/media/ai-pool-hero-poster.png" alt="" />
+        </div>
+        <div className="neo-hero-dark-overlay" />
+        <div className="app-container neo-hero-grid">
+          <div className="neo-hero-copy">
+            <Badge variant="outline" className="neo-eyebrow"><Sparkles size={16} /> {t.heroBadge}</Badge>
+            <h1 className="neo-typing-heading">
+              <span className="neo-heading-static">{lang === 'ar' ? 'نصمّم وننفّذ' : 'We design & build'}</span>
+              <span className="neo-typed-line" aria-live="polite">
+                {typedText}<i className="neo-type-caret" aria-hidden="true" />
+              </span>
+              <small>{lang === 'ar' ? 'في دولة الإمارات' : 'across the UAE'}</small>
+            </h1>
+            <p>{t.heroDescription}</p>
+            <div className="neo-actions">
+              <Link to="/contact" className="neo-btn neo-btn-primary">
+                {t.heroCtaContact}<ArrowIcon size={18} />
+              </Link>
+              <Link to="/projects" className="neo-text-link">
+                <span className="neo-play"><Play size={14} fill="currentColor" /></span>
+                {t.heroCtaProjects}
+              </Link>
             </div>
-
-            <div
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: '0.8rem',
-                color: 'var(--color-copper-light)',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-              }}
-            >
-              <Compass size={16} />
-              <span>{t.heroBadge}</span>
+            <div className="neo-trust-row">
+              <span><CircleCheck size={17} /> {lang === 'ar' ? 'ضمانات تنفيذ معتمدة' : 'Certified warranties'}</span>
+              <span><CircleCheck size={17} /> {lang === 'ar' ? 'معاينة ميدانية' : 'On-site consultation'}</span>
             </div>
           </div>
 
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
-              gap: 'clamp(2rem, 5vw, 4rem)',
-              alignItems: 'center',
-            }}
-          >
-            {/* Left Content (Text & CTAs) */}
-            <div>
-              {/* Category Eyebrow */}
-              <div
-                style={{
-                  color: 'var(--color-copper-light)',
-                  fontFamily: 'var(--font-display)',
-                  fontSize: 'clamp(0.95rem, 1.8vw, 1.15rem)',
-                  marginBlockEnd: '1rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  flexWrap: 'wrap',
-                }}
-              >
-                <span>{lang === 'ar' ? 'المسابح' : 'Swimming Pools'}</span>
-                <span>•</span>
-                <span>{lang === 'ar' ? 'تنسيق الحدائق' : 'Landscaping'}</span>
-                <span>•</span>
-                <span>{lang === 'ar' ? 'النوافير والشلالات' : 'Fountains & Cascades'}</span>
-                <span>•</span>
-                <span>{lang === 'ar' ? 'المساحات الخارجية' : 'Outdoor Living'}</span>
-              </div>
-
-              {/* Main Heading */}
-              <h1
-                style={{
-                  marginBlockEnd: '1.25rem',
-                  color: 'var(--color-text-primary)',
-                  lineHeight: '1.2',
-                }}
-              >
-                <span>{t.heroH1Part1}</span>
-                <br />
-                <span style={{ color: 'var(--color-copper-light)' }}>{t.heroH1Part2}</span>
-              </h1>
-
-              {/* Subtitle / Description */}
-              <p
-                style={{
-                  fontSize: 'clamp(1rem, 1.8vw, 1.15rem)',
-                  lineHeight: '1.75',
-                  color: 'var(--color-text-secondary)',
-                  marginBlockEnd: '2.25rem',
-                }}
-              >
-                {t.heroDescription}
-              </p>
-
-              {/* Action Buttons */}
-              <div
-                style={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  gap: '0.85rem',
-                  alignItems: 'center',
-                }}
-              >
-                <a
-                  href={`https://wa.me/${COMPANY_CONFIG.whatsappNumber}?text=${encodeURIComponent(
-                    lang === 'ar'
-                      ? 'مرحباً دار العمارة، أود الاستفسار عن تصميم وتنفيذ مسبح وحديقة وعروض الأسعار.'
-                      : 'Hello Dar Al Amarah, I would like to inquire about swimming pool & landscape design and quote.'
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-base btn-whatsapp"
-                  id="hero-btn-whatsapp"
-                  style={{
-                    paddingBlock: '0.75rem',
-                    paddingInline: '1.45rem',
-                  }}
-                >
-                  <MessageCircle size={18} />
-                  <span>{lang === 'ar' ? 'استشارة واتساب فورية' : 'Instant WhatsApp Chat'}</span>
-                </a>
-
-                <Button to="/contact" variant="primary" id="hero-btn-contact" icon={<ArrowIcon size={17} />}>
-                  {t.heroCtaContact}
-                </Button>
-
-                <Button to="/projects" variant="secondary" id="hero-btn-projects" icon={<Compass size={17} />}>
-                  {t.heroCtaProjects}
-                </Button>
-              </div>
-
-              {/* Engineering Guarantees bar */}
-              <div
-                style={{
-                  marginBlockStart: '2.5rem',
-                  paddingBlockStart: '1.5rem',
-                  borderBlockStart: '1px dashed var(--color-border-subtle)',
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
-                  gap: '1rem',
-                  fontSize: '0.85rem',
-                  color: 'var(--color-text-muted)',
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
-                  <ShieldCheck size={18} style={{ color: 'var(--color-copper)' }} />
-                  <span>{lang === 'ar' ? 'ضمانات عزل وإنشاء طويلة' : 'Structural & waterproofing warranties'}</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
-                  <Waves size={18} style={{ color: 'var(--color-copper)' }} />
-                  <span>{lang === 'ar' ? 'أنظمة ترشيح وإضاءة متطورة' : 'Advanced filtration & illumination'}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Showcase: Real Photos & Architectural Blueprint */}
-            <div>
-              <HeroShowcase />
-            </div>
-          </div>
         </div>
       </section>
 
-      {/* ====================================================================
-          SERVICES OVERVIEW — نبذة سريعة عن الخدمات السبعة
-          ==================================================================== */}
-      <section
-        style={{
-          paddingBlock: '5rem',
-          borderBlockEnd: '1px solid var(--color-border-subtle)',
-        }}
-      >
+      <div className="neo-marquee" aria-label={lang === 'ar' ? 'خدماتنا' : 'Our services'}>
+        <div>
+          {[...SERVICES_DATA, ...SERVICES_DATA].map((service, index) => (
+            <span key={`${service.id}-${index}`}>✦ {lang === 'ar' ? service.title : service.titleEn}</span>
+          ))}
+        </div>
+      </div>
+
+      <section className="neo-section neo-services">
         <div className="app-container">
-          <div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              justifyContent: 'space-between',
-              alignItems: 'flex-end',
-              gap: '1.5rem',
-              marginBlockEnd: '3rem',
-            }}
-          >
+          <div className="neo-section-head">
             <div>
-              <div className="sheet-tag" style={{ marginBlockEnd: '0.75rem' }}>
-                <span>{t.homeServicesTag}</span>
-                <span style={{ opacity: 0.5 }}>|</span>
-                <span>A—02</span>
-              </div>
+              <Badge variant="soft" className="neo-kicker">{t.homeServicesTag}</Badge>
               <h2>{t.homeServicesTitle}</h2>
-              <p style={{ marginBlockStart: '0.5rem' }}>
-                {t.homeServicesDesc}
-              </p>
+              <p>{t.homeServicesDesc}</p>
             </div>
-
-            <Link
-              to="/services"
-              className="btn-base btn-secondary"
-              style={{ fontSize: '0.9rem', paddingBlock: '0.6rem', paddingInline: '1.25rem' }}
-            >
-              <span>{t.viewAllServicesBtn}</span>
-              <ArrowIcon size={16} />
-            </Link>
+            <Link to="/services" className="neo-outline-btn">{t.viewAllServicesBtn}<ArrowIcon size={17} /></Link>
           </div>
-
-          {/* 7 Services Grid */}
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
-              gap: '1.75rem',
-            }}
-          >
-            {SERVICES_DATA.map((service) => (
-              <ServiceCard key={service.id} service={service} showFullDetails={false} />
+          <div className="neo-service-grid">
+            {SERVICES_DATA.slice(0, 3).map((service, index) => (
+              <Card className={`neo-service-card neo-card-${index + 1}`} key={service.id}>
+                <div className="neo-service-number">0{index + 1}</div>
+                <div className="neo-service-image"><img src={serviceImages[index]} alt={lang === 'ar' ? service.title : service.titleEn} /></div>
+                <h3>{lang === 'ar' ? service.title : service.titleEn}</h3>
+                <p>{lang === 'ar' ? service.shortDesc : service.shortDescEn}</p>
+                <Link to="/services">{lang === 'ar' ? 'اكتشف التفاصيل' : 'Discover details'} <ArrowIcon size={16} /></Link>
+              </Card>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ====================================================================
-          WARM STONE SECTION — تجربة الخامات الحجرية والهندسية
-          ==================================================================== */}
-      <section
-        className="blueprint-paper-stone"
-        style={{
-          paddingBlock: '5rem',
-          borderBlockEnd: '1px solid rgba(186, 147, 104, 0.4)',
-        }}
-      >
-        <div className="app-container">
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              flexWrap: 'wrap',
-              gap: '1rem',
-              marginBlockEnd: '2.5rem',
-            }}
-          >
-            <div>
-              <div className="sheet-tag sheet-tag-stone" style={{ marginBlockEnd: '0.65rem' }}>
-                <span>{t.homeWhyTag}</span>
-                <span style={{ opacity: 0.5 }}>|</span>
-                <span>{lang === 'ar' ? 'حجر طبيعي • خرسانة • مياه' : 'Natural Stone • Concrete • MEP'}</span>
-              </div>
-              <h2 style={{ color: 'var(--color-stone-dark)' }}>
-                {t.homeWhyTitle}
-              </h2>
-            </div>
-
-            <Link
-              to="/why"
-              className="btn-base btn-stone-primary"
-              style={{ fontSize: '0.9rem' }}
-            >
-              <span>{lang === 'ar' ? 'لماذا تختار دار العمارة؟' : 'Why Choose Us?'}</span>
-              <ArrowIcon size={16} />
-            </Link>
+      <section className="neo-section neo-feature">
+        <div className="app-container neo-feature-grid">
+          <div className="neo-feature-collage">
+            <img className="neo-feature-main" src="/projects/project-2/after/after-9.jpg" alt="" />
+            <img className="neo-feature-small" src="/projects/project-1/after/after-6.jpg" alt="" />
+            <div className="neo-years"><strong>+{new Date().getFullYear() - Number(COMPANY_CONFIG.establishedYear)}</strong><span>{lang === 'ar' ? 'سنوات خبرة' : 'years of craft'}</span></div>
           </div>
+          <div className="neo-feature-copy">
+            <Badge variant="soft" className="neo-kicker">{t.homeWhyTag}</Badge>
+            <h2>{t.homeWhyTitle}</h2>
+            <p>{t.homeWhyDesc}</p>
+            <ul>
+              {WHY_PILLARS.slice(0, 4).map((pillar) => (
+                <li key={pillar.number}><span><Check size={16} /></span>{lang === 'ar' ? pillar.title : pillar.titleEn}</li>
+              ))}
+            </ul>
+            <Link to="/why" className="neo-btn neo-btn-dark">{lang === 'ar' ? 'لماذا دار العمارة؟' : 'Why Dar Al Amarah?'}<ArrowIcon size={18} /></Link>
+          </div>
+        </div>
+      </section>
 
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
-              gap: '1.5rem',
-            }}
-          >
-            {WHY_PILLARS.slice(0, 3).map((pillar) => (
-              <div
-                key={pillar.number}
-                style={{
-                  backgroundColor: 'var(--color-bg-surface)',
-                  border: '1px solid var(--color-border-subtle)',
-                  padding: '1.75rem',
-                  position: 'relative',
-                  boxShadow: theme === 'dark' ? '0 4px 18px rgba(0, 0, 0, 0.3)' : '0 4px 18px rgba(79, 79, 79, 0.05)',
-                }}
-                className="crop-box"
-              >
-                <CropMarks size={8} />
-                <div
-                  style={{
-                    fontFamily: 'var(--font-display)',
-                    fontSize: '1.5rem',
-                    fontWeight: 700,
-                    color: 'var(--color-copper)',
-                    marginBlockEnd: '0.75rem',
-                  }}
-                >
-                  {pillar.number}
+      <section className="neo-section neo-projects">
+        <div className="app-container">
+          <div className="neo-section-head neo-centered-head">
+            <div>
+              <Badge variant="soft" className="neo-kicker">{lang === 'ar' ? 'مشاريع مختارة' : 'Selected work'}</Badge>
+              <h2>{lang === 'ar' ? 'مساحات تحوّلت إلى تجارب استثنائية' : 'Spaces transformed into exceptional experiences'}</h2>
+            </div>
+          </div>
+          <div className="neo-project-grid">
+            {PROJECTS_DATA.slice(0, 3).map((project, index) => (
+              <Link className="neo-project-card" to="/projects" key={project.id}>
+                <img src={serviceImages[index]} alt={lang === 'ar' ? project.title : project.titleEn} />
+                <div className="neo-project-overlay">
+                  <small>{lang === 'ar' ? project.location : project.locationEn}</small>
+                  <h3>{lang === 'ar' ? project.title : project.titleEn}</h3>
+                  <span>{lang === 'ar' ? project.categoryLabel : project.categoryLabelEn}<ArrowIcon size={16} /></span>
                 </div>
-                <h3
-                  style={{
-                    color: 'var(--color-text-primary)',
-                    fontSize: '1.2rem',
-                    marginBlockEnd: '0.6rem',
-                  }}
-                >
-                  {pillar.title}
-                </h3>
-                <p
-                  style={{
-                    color: 'var(--color-text-secondary)',
-                    fontSize: '0.92rem',
-                    lineHeight: '1.6',
-                    marginBlockEnd: '1rem',
-                  }}
-                >
-                  {pillar.description}
-                </p>
-                <div
-                  style={{
-                    fontSize: '0.8rem',
-                    color: 'var(--color-copper-dark)',
-                    fontWeight: 600,
-                    fontFamily: 'var(--font-display)',
-                  }}
-                >
-                  • {pillar.keyAspect}
-                </div>
-              </div>
+              </Link>
+            ))}
+          </div>
+          <div className="neo-center-action"><Link to="/projects" className="neo-outline-btn">{lang === 'ar' ? 'شاهد كل المشاريع' : 'View all projects'}<ArrowIcon size={17} /></Link></div>
+        </div>
+      </section>
+
+      <section className="neo-section neo-process">
+        <div className="app-container">
+          <div className="neo-section-head">
+            <div><Badge variant="outline" className="neo-kicker">{lang === 'ar' ? 'طريقة العمل' : 'How it works'}</Badge><h2>{lang === 'ar' ? 'رحلة واضحة من الفكرة إلى التسليم' : 'A clear journey from idea to handover'}</h2></div>
+          </div>
+          <div className="neo-process-grid">
+            {PROCESS_STAGES.map((stage) => (
+              <article key={stage.step}>
+                <span>{stage.step}</span>
+                <h3>{lang === 'ar' ? stage.title : stage.titleEn}</h3>
+                <p>{lang === 'ar' ? stage.description : stage.descriptionEn}</p>
+              </article>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ====================================================================
-          PROJECT PREVIEW TEASER
-          ==================================================================== */}
-      <section
-        style={{
-          paddingBlock: '5rem',
-          borderBlockEnd: '1px solid var(--color-border-subtle)',
-        }}
-      >
-        <div className="app-container">
-          <div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              justifyContent: 'space-between',
-              alignItems: 'flex-end',
-              gap: '1.5rem',
-              marginBlockEnd: '2.5rem',
-            }}
-          >
-            <div>
-              <div className="sheet-tag" style={{ marginBlockEnd: '0.65rem' }}>
-                <span>مشاريع منفذة في الدولة</span>
-                <span style={{ opacity: 0.5 }}>|</span>
-                <span>A—04</span>
-              </div>
-              <h2>{lang === 'ar' ? 'مخططات واقعية لمشاريع تم تسليمها' : 'Delivered Architectural Project Blueprints'}</h2>
-              <p style={{ marginBlockStart: '0.5rem' }}>
-                {lang === 'ar'
-                  ? 'مسابح إنفينيتي، حدائق سكنية، ونوافير معمارية نفذتها دار العمارة في دبي وأبوظبي ورأس الخيمة.'
-                  : 'Infinity pools, private residential landscapes, and architectural water features executed across Dubai, Abu Dhabi, and RAK.'}
-              </p>
-            </div>
-
-            <Link
-              to="/projects"
-              className="btn-base btn-secondary"
-              style={{ fontSize: '0.9rem' }}
-            >
-              <span>{lang === 'ar' ? 'عرض جميع المخططات المعمارية (4 مشاريع)' : 'View All Architectural Blueprints (4 Projects)'}</span>
-              <ArrowIcon size={16} />
-            </Link>
+      <section className="neo-section neo-transform">
+        <div className="app-container neo-transform-grid">
+          <div className="neo-transform-copy">
+            <Badge variant="soft" className="neo-kicker">{lang === 'ar' ? 'قبل وبعد التنفيذ' : 'Before & after'}</Badge>
+            <h2>{lang === 'ar' ? 'النتيجة التي تتحدث عن نفسها' : 'Results that speak for themselves'}</h2>
+            <p>{lang === 'ar' ? 'نحوّل المساحات الخام إلى حدائق ومسابح متكاملة بتفاصيل مدروسة وجودة تنفيذ تظهر في كل زاوية.' : 'We transform raw spaces into complete landscapes and pools, with considered details and visible craftsmanship.'}</p>
+            <div className="neo-proof"><ShieldCheck size={24} /><span>{lang === 'ar' ? 'إشراف هندسي وجودة موثقة في كل مرحلة' : 'Engineering supervision and documented quality at every stage'}</span></div>
+            <Link to="/projects" className="neo-btn neo-btn-primary">{lang === 'ar' ? 'شاهد التحولات الكاملة' : 'See full transformations'}<ArrowIcon size={18} /></Link>
           </div>
-
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
-              gap: '2rem',
-            }}
-          >
-            {PROJECTS_DATA.slice(0, 2).map((item) => (
-              <div
-                key={item.id}
-                className="crop-box"
-                style={{
-                  border: '1px solid var(--color-border-bright)',
-                  padding: '1.5rem',
-                  backgroundColor: 'var(--color-bg-surface)',
-                }}
-              >
-                <CropMarks size={10} />
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginBlockEnd: '0.75rem',
-                  }}
-                >
-                  <span style={{ color: 'var(--color-copper-light)', fontSize: '0.8rem', fontFamily: 'var(--font-display)' }}>
-                    {item.code}
-                  </span>
-                  <span style={{ color: 'var(--color-text-muted)', fontSize: '0.8rem' }}>
-                    {lang === 'ar' ? item.location : (item.locationEn || item.location)}
-                  </span>
-                </div>
-                <h3 style={{ color: 'var(--color-text-primary)', marginBlockEnd: '0.5rem', fontSize: '1.25rem' }}>
-                  {lang === 'ar' ? item.title : (item.titleEn || item.title)}
-                </h3>
-                <p style={{ fontSize: '0.9rem', marginBlockEnd: '1.25rem' }}>
-                  {lang === 'ar' ? item.description : (item.descriptionEn || item.description)}
-                </p>
-                <Link
-                  to="/projects"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.4rem',
-                    color: 'var(--color-copper-light)',
-                    fontSize: '0.88rem',
-                    fontFamily: 'var(--font-display)',
-                  }}
-                >
-                  <span>{lang === 'ar' ? 'استعراض المخطط والمواصفات الكاملة' : 'Explore Blueprint & Specifications'}</span>
-                  <ArrowIcon size={15} />
-                </Link>
-              </div>
-            ))}
+          <div className="neo-before-after">
+            <div><img src="/projects/project-1/before/before-1.jpg" alt="Before" /><span>{lang === 'ar' ? 'قبل' : 'Before'}</span></div>
+            <div><img src="/projects/project-1/after/after-1.jpg" alt="After" /><span>{lang === 'ar' ? 'بعد' : 'After'}</span></div>
           </div>
         </div>
       </section>
 
-      {/* ====================================================================
-          BEFORE & AFTER TRANSFORMATION SHOWCASE (قبل وبعد التنفيذ)
-          ==================================================================== */}
-      <section
-        style={{
-          paddingBlock: '5rem',
-          backgroundColor: 'var(--color-bg-primary)',
-          borderBlockEnd: '1px solid var(--color-border-subtle)',
-          position: 'relative',
-        }}
-      >
+      <section className="neo-cta">
+        <div className="neo-cta-orb" />
         <div className="app-container">
-          <div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              justifyContent: 'space-between',
-              alignItems: 'flex-end',
-              gap: '1.5rem',
-              marginBlockEnd: '3rem',
-            }}
-          >
-            <div>
-              <div className="sheet-tag" style={{ marginBlockEnd: '0.65rem' }}>
-                <Sparkles size={13} style={{ color: 'var(--color-copper-light)' }} />
-                <span>{lang === 'ar' ? 'التحول الحقيقي بالصور والفيديو' : 'Real Transformation via Photos & Videos'}</span>
-                <span style={{ opacity: 0.5 }}>|</span>
-                <span>{lang === 'ar' ? 'سلايدر تفاعلي بالسحب' : 'Interactive Swipe Slider'}</span>
-              </div>
-              <h2>{lang === 'ar' ? 'أعمالنا ومشاريعنا: قبل وبعد التنفيذ' : 'Our Work & Projects: Before & After Execution'}</h2>
-              <p style={{ marginBlockStart: '0.5rem', maxWidth: '70ch' }}>
-                {lang === 'ar'
-                  ? 'اكتشف كيف نقوم بتحويل المساحات الرملية ومراحل الحفر والتسليح إلى مسابح إنفينيتي فاخرة وجلسات دائرية وبرجولات ومساحات خضراء متكاملة بأعلى معايير الجودة الهندسية.'
-                  : 'Discover how we transform bare sandy yards and excavation pits into luxury infinity pools, circular sunken lounges, pergolas, and lush green sanctuaries conforming to top engineering standards.'}
-              </p>
-            </div>
-
-            <Link
-              to="/projects"
-              className="btn-base btn-primary"
-              style={{ fontSize: '0.92rem', paddingBlock: '0.75rem', paddingInline: '1.5rem' }}
-            >
-              <Sliders size={16} />
-              <span>{lang === 'ar' ? 'استعراض المشاريع ومقارنات قبل وبعد' : 'Explore Projects & Before/After Comparisons'}</span>
-              <ArrowIcon size={16} />
-            </Link>
-          </div>
-
-          {/* 2 Showcase Cards for Project 1 and Project 2 */}
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
-              gap: '2rem',
-            }}
-          >
-            {/* Card 1: Palm Jumeirah Pool */}
-            <div
-              className="crop-box"
-              style={{
-                backgroundColor: 'var(--color-bg-surface)',
-                border: '1px solid var(--color-border-subtle)',
-                overflow: 'hidden',
-              }}
-            >
-              <CropMarks size={10} />
-              <div style={{ position: 'relative', height: '240px', overflow: 'hidden' }}>
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr',
-                    height: '100%',
-                  }}
-                >
-                  <div style={{ position: 'relative', overflow: 'hidden' }}>
-                    <img
-                      src="/projects/project-1/before/before-1.jpg"
-                      alt={lang === 'ar' ? 'قبل التنفيذ' : 'Before Execution'}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    />
-                    <span
-                      style={{
-                        position: 'absolute',
-                        insetBlockStart: '0.5rem',
-                        insetInlineStart: '0.5rem',
-                        backgroundColor: 'rgba(79,79,79,0.92)',
-                        color: '#FFFFFF',
-                        padding: '0.2rem 0.5rem',
-                        fontSize: '0.72rem',
-                      }}
-                    >
-                      {lang === 'ar' ? 'قبل' : 'Before'}
-                    </span>
-                  </div>
-                  <div style={{ position: 'relative', overflow: 'hidden', borderInlineStart: '2px solid var(--color-copper)' }}>
-                    <img
-                      src="/projects/project-1/after/after-1.jpg"
-                      alt={lang === 'ar' ? 'بعد الإنجاز' : 'After Handover'}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    />
-                    <span
-                      style={{
-                        position: 'absolute',
-                        insetBlockStart: '0.5rem',
-                        insetInlineEnd: '0.5rem',
-                        backgroundColor: '#BA9368',
-                        color: '#FFFFFF',
-                        padding: '0.2rem 0.5rem',
-                        fontSize: '0.72rem',
-                      }}
-                    >
-                      {lang === 'ar' ? 'بعد' : 'After'}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div style={{ padding: '1.25rem' }}>
-                <div style={{ fontSize: '0.78rem', color: 'var(--color-copper-light)', marginBlockEnd: '0.25rem' }}>
-                  {lang === 'ar' ? 'نخلة جميرا، دبي • مسبح إنفينيتي' : 'Palm Jumeirah, Dubai • Infinity Pool'}
-                </div>
-                <h3 style={{ fontSize: '1.15rem', color: 'var(--color-text-primary)', marginBlockEnd: '0.5rem' }}>
-                  {lang === 'ar' ? 'مسبح إنفينيتي فاخر وجلسات مائية غاطسة' : 'Luxury Infinity Pool & Submerged Sunken Lounges'}
-                </h3>
-                <p style={{ fontSize: '0.88rem', color: 'var(--color-text-secondary)', marginBlockEnd: '1rem' }}>
-                  {lang === 'ar'
-                    ? 'شلالات ثلاثية، كراسي استجمام غاطسة، وأشجار بونساي معمارية وتشطيبات بورسلان راقية.'
-                    : 'Triple water cascades, submerged baja shelves, architectural bonsai trees, and imported porcelain finishes.'}
-                </p>
-                <Link
-                  to="/projects"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.4rem',
-                    color: 'var(--color-copper-light)',
-                    fontSize: '0.85rem',
-                    fontWeight: 600,
-                  }}
-                >
-                  <span>{lang === 'ar' ? 'استعراض صور وفيديو المشروع' : 'View Project Photos & Videos'}</span>
-                  <ArrowIcon size={14} />
-                </Link>
-              </div>
-            </div>
-
-            {/* Card 2: Arabian Ranches Landscaping & Lounge */}
-            <div
-              className="crop-box"
-              style={{
-                backgroundColor: 'var(--color-bg-surface)',
-                border: '1px solid var(--color-border-subtle)',
-                overflow: 'hidden',
-              }}
-            >
-              <CropMarks size={10} />
-              <div style={{ position: 'relative', height: '240px', overflow: 'hidden' }}>
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr',
-                    height: '100%',
-                  }}
-                >
-                  <div style={{ position: 'relative', overflow: 'hidden' }}>
-                    <img
-                      src="/projects/project-2/before/before-1.jpg"
-                      alt={lang === 'ar' ? 'قبل التنفيذ' : 'Before Execution'}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    />
-                    <span
-                      style={{
-                        position: 'absolute',
-                        insetBlockStart: '0.5rem',
-                        insetInlineStart: '0.5rem',
-                        backgroundColor: 'rgba(79,79,79,0.92)',
-                        color: '#FFFFFF',
-                        padding: '0.2rem 0.5rem',
-                        fontSize: '0.72rem',
-                      }}
-                    >
-                      {lang === 'ar' ? 'قبل' : 'Before'}
-                    </span>
-                  </div>
-                  <div style={{ position: 'relative', overflow: 'hidden', borderInlineStart: '2px solid var(--color-copper)' }}>
-                    <img
-                      src="/projects/project-2/after/after-1.jpg"
-                      alt={lang === 'ar' ? 'بعد الإنجاز' : 'After Handover'}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    />
-                    <span
-                      style={{
-                        position: 'absolute',
-                        insetBlockStart: '0.5rem',
-                        insetInlineEnd: '0.5rem',
-                        backgroundColor: '#BA9368',
-                        color: '#FFFFFF',
-                        padding: '0.2rem 0.5rem',
-                        fontSize: '0.72rem',
-                      }}
-                    >
-                      {lang === 'ar' ? 'بعد' : 'After'}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div style={{ padding: '1.25rem' }}>
-                <div style={{ fontSize: '0.78rem', color: 'var(--color-copper-light)', marginBlockEnd: '0.25rem' }}>
-                  {lang === 'ar' ? 'المرابع العربية، دبي • حديقة ومسبح' : 'Arabian Ranches, Dubai • Landscape & Pool'}
-                </div>
-                <h3 style={{ fontSize: '1.15rem', color: 'var(--color-text-primary)', marginBlockEnd: '0.5rem' }}>
-                  {lang === 'ar' ? 'تطوير فناء سكني مع جلسة دائرية وبرجولة' : 'Residential Courtyard Upgrade with Sunken Fire Pit & Pergola'}
-                </h3>
-                <p style={{ fontSize: '0.88rem', color: 'var(--color-text-secondary)', marginBlockEnd: '1rem' }}>
-                  {lang === 'ar'
-                    ? 'جلسة حجرية دائرية مع شعلة مركزية، مطبخ خارجي مجهز، ومسارات عشبية مضاءة بنظام LED.'
-                    : 'Circular natural stone fire lounge, fully fitted outdoor kitchen, and stepping stone lawn pathways with warm LED illumination.'}
-                </p>
-                <Link
-                  to="/projects"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.4rem',
-                    color: 'var(--color-copper-light)',
-                    fontSize: '0.85rem',
-                    fontWeight: 600,
-                  }}
-                >
-                  <span>{lang === 'ar' ? 'استعراض صور وفيديو المشروع' : 'View Project Photos & Videos'}</span>
-                  <ArrowIcon size={14} />
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ====================================================================
-          FINAL CALL TO ACTION — دعوة ختامية تودي لـ /contact
-          ==================================================================== */}
-      <section
-        style={{
-          paddingBlock: '4.5rem',
-          backgroundColor: 'var(--color-bg-primary)',
-          position: 'relative',
-        }}
-      >
-        <div className="app-container">
-          <div
-            className="crop-box"
-            style={{
-              padding: 'clamp(2rem, 5vw, 3.5rem)',
-              backgroundColor: 'var(--color-bg-surface)',
-              border: '1px solid var(--color-border-bright)',
-              textAlign: 'center',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: theme === 'dark' ? '0 8px 30px rgba(0, 0, 0, 0.4)' : '0 8px 30px rgba(79, 79, 79, 0.06)',
-            }}
-          >
-            <CropMarks size={14} />
-
-            <div className="sheet-tag" style={{ marginBlockEnd: '1.25rem' }}>
-              <span>{t.homeCtaTag}</span>
-              <span style={{ opacity: 0.5 }}>|</span>
-              <span>{lang === 'ar' ? 'طلب استشارة معمارية' : 'Architectural Consultation'}</span>
-            </div>
-
-            <h2
-              style={{
-                color: 'var(--color-text-primary)',
-                marginBlockEnd: '1rem',
-                maxWidth: '32ch',
-              }}
-            >
-              {t.homeCtaTitle}
-            </h2>
-
-            <p
-              style={{
-                fontSize: '1.05rem',
-                color: 'var(--color-text-secondary)',
-                marginBlockEnd: '2rem',
-                maxWidth: '60ch',
-              }}
-            >
-              {t.homeCtaDesc}
-            </p>
-
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'center' }}>
-              <Button to="/contact" variant="primary" id="cta-bottom-quote" icon={<ArrowIcon size={17} />}>
-                {t.homeCtaBtn}
-              </Button>
-              <Button to="/services" variant="secondary">
-                {t.viewAllServicesBtn}
-              </Button>
-            </div>
+          <Badge variant="outline" className="neo-kicker">{t.homeCtaTag}</Badge>
+          <h2>{t.homeCtaTitle}</h2>
+          <p>{t.homeCtaDesc}</p>
+          <div className="neo-actions neo-cta-actions">
+            <Link to="/contact" className="neo-btn neo-btn-light">{t.homeCtaBtn}<ArrowIcon size={18} /></Link>
+            <a className="neo-btn neo-btn-whatsapp" href={`https://wa.me/${COMPANY_CONFIG.whatsappNumber}`} target="_blank" rel="noreferrer"><MessageCircle size={19} />{lang === 'ar' ? 'تواصل عبر واتساب' : 'Chat on WhatsApp'}</a>
           </div>
         </div>
       </section>
