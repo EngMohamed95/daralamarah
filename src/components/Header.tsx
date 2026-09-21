@@ -26,17 +26,17 @@ export const Header: React.FC = () => {
           <img className="header-brand-logo" src="/logo.png" alt="Dar Al Amarah Landscaping & Pool" />
         </Link>
         <nav className="neo-desktop-nav">
-          {links.map(([path, label]) => <a key={path} href={path}>{label}</a>)}
+          {links.map(([path, label]) => <Link key={path} to={`/${path}`}>{label}</Link>)}
         </nav>
         <div className="neo-nav-actions">
           <button onClick={toggleLang} aria-label="Change language"><Globe size={16} /><span>{lang === 'ar' ? 'EN' : 'عربي'}</span></button>
           <button className="neo-icon-btn" onClick={toggleTheme} aria-label="Change theme">{theme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}</button>
-          <a className="neo-nav-cta" href="#contact"><PhoneCall size={16} />{t.navConsultationBtn}</a>
+          <Link className="neo-nav-cta" to="/#contact"><PhoneCall size={16} />{t.navConsultationBtn}</Link>
           <button className="neo-mobile-toggle" onClick={() => setOpen(!open)} aria-expanded={open}>{open ? <X /> : <Menu />}</button>
         </div>
       </div>
       {open && <nav className="neo-mobile-nav">
-        {links.map(([path, label]) => <a key={path} href={path} onClick={() => setOpen(false)}>{label}</a>)}
+        {links.map(([path, label]) => <Link key={path} to={`/${path}`} onClick={() => setOpen(false)}>{label}</Link>)}
         <a href={`https://wa.me/${COMPANY_CONFIG.whatsappNumber}`} target="_blank" rel="noreferrer"><MessageCircle size={18} /> واتساب</a>
       </nav>}
     </header>

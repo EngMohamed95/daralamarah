@@ -397,6 +397,10 @@ export const Footer: React.FC = () => {
             <span>{lang === 'ar' ? 'النوافير المائية' : 'Water Features'}</span>
             <span>•</span>
             <span>{lang === 'ar' ? 'المساحات الخارجية' : 'Outdoor Living'}</span>
+            <span>•</span>
+            <Link to="/privacy-policy" style={{ color: 'var(--color-text-muted)' }} className="hover-copper">
+              {lang === 'ar' ? 'سياسة الخصوصية' : 'Privacy Policy'}
+            </Link>
           </div>
         </div>
       </div>

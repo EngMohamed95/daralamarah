@@ -14,11 +14,23 @@ import { Badge } from '../components/ui/badge';
 import { Card } from '../components/ui/card';
 import { LandingLeadForm } from '../components/LandingLeadForm';
 
+// صورة مختلفة لكل خدمة من خدماتنا السبع تعكس طبيعة الخدمة فعليًا
 const serviceImages = [
-  '/projects/project-1/after/after-1.jpg',
+  '/projects/project-1/after/after-1.jpg',  // تصميم وتنفيذ المسابح
+  '/projects/project-2/after/after-6.jpg',  // تنسيق الحدائق
+  '/projects/project-1/after/after-7.jpg',  // النوافير والعناصر المائية
+  '/projects/project-2/after/after-8.jpg',  // أنظمة الري
+  '/projects/project-1/after/after-11.jpg', // الأرضيات الخارجية
+  '/projects/project-2/after/after-2.jpg',  // البرجولات والمظلات
+  '/projects/project-1/after/after-9.jpg',  // أغطية المسابح الأوتوماتيكية
+];
+
+// صور منفصلة لبطاقات المشاريع المختارة حتى لا تتكرر مع صور الخدمات
+const projectImages = [
+  '/projects/project-1/after/after-3.jpg',
+  '/projects/project-2/after/after-1.jpg',
+  '/projects/project-1/after/after-5.jpg',
   '/projects/project-2/after/after-4.jpg',
-  '/projects/project-1/after/after-7.jpg',
-  '/projects/project-2/after/after-9.jpg',
 ];
 
 export const Home: React.FC = () => {
@@ -162,7 +174,7 @@ export const Home: React.FC = () => {
           <div className="neo-project-grid">
             {PROJECTS_DATA.map((project, index) => (
               <a className="neo-project-card" href="#contact" key={project.id}>
-                <img src={serviceImages[index]} alt={lang === 'ar' ? project.title : project.titleEn} />
+                <img src={projectImages[index % projectImages.length]} alt={lang === 'ar' ? project.title : project.titleEn} />
                 <div className="neo-project-overlay">
                   <small>{lang === 'ar' ? project.location : project.locationEn}</small>
                   <h3>{lang === 'ar' ? project.title : project.titleEn}</h3>
